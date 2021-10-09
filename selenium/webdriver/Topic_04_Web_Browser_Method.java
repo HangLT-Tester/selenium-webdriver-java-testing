@@ -31,7 +31,7 @@ public class Topic_04_Web_Browser_Method {
 		// Lấy ra title của page hiện tại -> **
 		driver.getTitle();
 		
-		// Lấy HTML code của page hiện tại
+		// Lấy HTML code của page hiện tại   123
 		driver.getPageSource();
 		
 		// Xử lý tab/ windows -> **
