@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -32,19 +33,19 @@ public class Topic_05_Web_Element_Method {
 		// muốn thao tác với element thì phải tìm element trước
 		
 		//Thao tác với 1 element
-		driver.findElement(By.id(""));
+		driver.findElement(By.id("")); //**
 		
 		//Tìm nhiều element
-		driver.findElements(By.id(""));
+		driver.findElements(By.id(""));//**
 		
 		// Nếu như chỉ thao tác với element 1 lần thì không cần khai báo biến
-		driver.findElement(By.id("small-searchterms")).sendKeys("Apple");
+		driver.findElement(By.id("small-searchterms")).sendKeys("Apple");//**
 		
 		// Nếu cần thao tác với element nhiều lần thì nên khai báo biến
 		WebElement searchTextbox = driver.findElement(By.id("small-searchterms"));
-		searchTextbox.clear();
+		searchTextbox.clear();//**
 		searchTextbox.sendKeys("Apple");
-		searchTextbox.getAttribute("value");
+		searchTextbox.getAttribute("value");//**
 		
 		
 		// Đêm xem có bao nhiêu element thỏa mãn đk
@@ -66,11 +67,66 @@ public class Topic_05_Web_Element_Method {
 		singleElement.sendKeys("");
 		
 		//Button, Link, Radio, Checkbox, Custum Dropdown,...
-		singleElement.click();
+		singleElement.click();//**
 		
 		//Các hàm có tiền tố bắt đầu băng Get luôn luôn trả về dữ liệu
 		// getTitle, getCurrentUrl, getPageSource, getAttribute, getCssValue, getText,...
-		singleElement.getAttribute("");
+		singleElement = driver.findElement(By.xpath("//input[@id='small-searchterms']"));
+		singleElement.getAttribute("placeholder");
+		
+		//Lấy ra giá trị của các thuộc tính css - thường dùng test GUI
+		// Font/Size/Color ...
+		singleElement = driver.findElement(By.cssSelector("search-box-button"));
+		singleElement.getCssValue("background-color");//*
+		
+		// Lấy ra tọa độ của element so với page hiện tại (get góc ngoài element)
+		singleElement.getLocation();
+		
+		// Lấy ra kích thước của elemtent (Rộng x Cao)  -> Get góc trong element
+		singleElement.getSize();
+		
+		// Location + Size
+		singleElement.getRect();
+		
+		//Chụp hình lỗi -> Đưa vào HTPL report
+		singleElement.getScreenshotAs(OutputType.FILE);//*
+		
+		// ID/ Class/Css/Name ...
+		// Từ 1 element k biết tagName -> Lấy ra được tagmane truyền vào 1 locator khác
+		singleElement = driver.findElement(By.cssSelector("search-box-button"));
+		String searchButtonTagname = singleElement.getTagName(); //-> Input		//**
+		searchTextbox = driver.findElement(By.xpath("//" + searchButtonTagname + "[@class='inputs']/input[not(@type='checkbox')]"));
+		
+		//Lấy ra text của elament (Header / Link/ Message...)
+		singleElement.getText();//**
+		
+		// Các hàm có tiền tố là is trả về kiểu boolean -> true/false
+		// Kiểm tra xem 1 element là hiển thị cho người dùng thao tác này hay k
+		// true: đang hiển thị
+		// false: k hiển thị
+		singleElement.isDisplayed();//**
+		
+		// Kiểm tra 1 element là disable hay k -> Cho mình thao tác hay k
+		// Disable: Người dùng k thao tác được 
+		// True: k thao tác được
+		// False: có thể thao tác
+		singleElement.isEnabled();//*
+		
+		//Kiểm tra 1 element đã được chọn rồi hay chưa
+		// Checkbox, dropdown (có thứ viên riêng), Radio
+		// True: đã chọn rồi
+		// False: chưa chọn
+		singleElement.isSelected();//*
+		
+		// Thay cho hành vi enter vào texbox / click vào button
+		// Chỉ dùng được trong form (Login/Register/Search...)
+		singleElement.submit();
+		
+		
+		singleElement = driver.findElement(By.id ("small-searchterms"));
+		singleElement.sendKeys("Apple");
+		singleElement.submit();
+		
 	}
 
 
