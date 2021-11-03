@@ -61,7 +61,7 @@ public class Topic_04_Web_Browser_Execise {
 		Assert.assertEquals(driver.getTitle(), "Create New Customer Account");
 	}
 	@Test
-	public void TC_04() {
+	public void TC_04_Verify_PageSource() {
 		driver.findElement(By.xpath("//*[@id='header']//a[@class='logo']")).click();
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		sleepInSecond(3);
