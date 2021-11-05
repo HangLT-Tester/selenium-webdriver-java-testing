@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 public class Topic_05_Web_Element_Execise {
 	// Khai báo biến (Declare)
 	WebDriver driver;
-	String firstName, lastName, emailAddress, password;
+	String firstName, lastName, emailAddress, password, fullName;
 
 	@BeforeClass
 	public void beforeClass() {
@@ -25,6 +25,7 @@ public class Topic_05_Web_Element_Execise {
 		// Khởi tạo data test
 		firstName = "Ha";
 		lastName = "Le";
+		fullName = firstName + " " + lastName;
 		emailAddress = "HaLe" + generateEmail();
 		password = "123456";
 	}
@@ -47,7 +48,8 @@ public class Topic_05_Web_Element_Execise {
 		driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText();
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "Thank you for registering with Main Website Store.");
 		
-		
+		//Dùng hàm isDisplayed để kiểm tra
+		Assert.assertTrue(driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p[contains(string(),'" + fullName + "')]")).isDisplayed());
 		
 	}
 
