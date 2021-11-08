@@ -50,21 +50,47 @@ public class Topic_05_Web_Element_Execise {
 		
 		//Dùng hàm isDisplayed để kiểm tra
 		Assert.assertTrue(driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p[contains(string(),'" + fullName + "')]")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p[contains(string(),'" + emailAddress + "')]")).isDisplayed());
+		
+		//Dùng hàm getText và verify contains (fullname/ email)
+		String contactInfomation = driver.findElement(By.xpath(" //h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+		System.out.println(contactInfomation);
+		
+		Assert.assertTrue(contactInfomation.contains(fullName));
+		Assert.assertTrue(contactInfomation.contains(emailAddress));
+		
+		driver.findElement(By.cssSelector(".skip-account")).click();
+		
+		driver.findElement(By.cssSelector("a[title='Log Out']")).click();
 		
 	}
 
 	@Test
 	public void TC_02_Login() {
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+		sleepInSecond(3);
 		
+		driver.findElement(By.cssSelector("#email")).sendKeys(emailAddress);
+		driver.findElement(By.cssSelector("#pass")).sendKeys(password);
+		
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
+		
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, " + fullName + "!");
 	}
 
 	@Test
-	public void TC_03_() {
-		
+	public void TC_03_Displayed() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
 	}
+	
 	@Test
-	public void TC_04() {
-		// ...
+	public void TC_04_Selected() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+	}
+	
+	@Test
+	public void TC_05_Enabled() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
 	}
 
 	@AfterClass
