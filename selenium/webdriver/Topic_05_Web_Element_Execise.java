@@ -15,6 +15,14 @@ public class Topic_05_Web_Element_Execise {
 	// Khai báo biến (Declare)
 	WebDriver driver;
 	String firstName, lastName, emailAddress, password, fullName;
+	By emailTextbox = By.id("mail");
+	By educationTextarea = By.id("edu");
+	By under18RadioButton = By.id("under_18");
+	By JavaCheckbox = By.id("java");
+	
+	By passwordTextbox = By.id("password");
+	By disableCheckbox = By.id("check-disbaled");
+	By disableButton = By.id("button-disabled");
 
 	@BeforeClass
 	public void beforeClass() {
@@ -30,7 +38,7 @@ public class Topic_05_Web_Element_Execise {
 		password = "123456";
 	}
 
-	@Test
+	//@Test
 	public void TC_01_Create_New_Account() {
 		driver.get("http://live.techpanda.org/");
 		
@@ -65,7 +73,7 @@ public class Topic_05_Web_Element_Execise {
 		
 	}
 
-	@Test
+	//@Test
 	public void TC_02_Login() {
 		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
 		sleepInSecond(3);
@@ -78,25 +86,131 @@ public class Topic_05_Web_Element_Execise {
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, " + fullName + "!");
 	}
 
-	@Test
-	public void TC_03_Displayed() {
+	//@Test
+	public void TC_03_Displayed_Newbie() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
+		
+		if(driver.findElement(By.id("mail")).isDisplayed()) {
+			driver.findElement(By.id("mail")).sendKeys("Automation FC");
+			System.out.println("Mail textbox is displayed");
+		} else {
+			System.out.println("Mail textbox is not displayed");
+		}
+		
+		
+		if(driver.findElement(By.id("edu")).isDisplayed()) {
+			driver.findElement(By.id("edu")).sendKeys("Automation FC");
+			System.out.println("Education Textarea is displayed");
+		} else {
+			System.out.println("Education Textarea is not displayed");
+		}
+		
+		if(driver.findElement(By.id("under_18")).isDisplayed()) {
+			driver.findElement(By.id("under_18")).click();
+			System.out.println("Radio button Under 18 is displayed");
+		} else {
+			System.out.println("Radio button Under 18 is not displayed");
+		}
 	}
 	
-	@Test
-	public void TC_04_Selected() {
+	//@Test
+	public void TC_03_Displayed_Function() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
+		
+		if(isElementDisplayed(emailTextbox)) {
+			senkeyToElement(emailTextbox, "Automation FC");
+		}
+		
+		if(isElementDisplayed(educationTextarea)) {
+			senkeyToElement(educationTextarea, "Automation FC");
+		}
+	
+		if(isElementDisplayed(under18RadioButton)) {
+			clickRadioButton(under18RadioButton);
+		}
+		
+	}
+	
+	
+	
+	//@Test
+	public void TC_04_Selected_Function() {
+		driver.get("https://automationfc.github.io/basic-form/index.html");
+		
+		clickRadioButton(under18RadioButton);
+		clickRadioButton(JavaCheckbox);
+		
+		//Verify checkbox/radio đã được chọn
+		Assert.assertTrue(isElementSelected(under18RadioButton));
+		Assert.assertTrue(isElementSelected(JavaCheckbox));
+		
+		//Bỏ chọn checkbox Java
+		clickRadioButton(JavaCheckbox);
+		
+		//Verify checkbox chưa được chọn
+		Assert.assertTrue(isElementSelected(under18RadioButton));
+		Assert.assertFalse(isElementSelected(JavaCheckbox));		
 	}
 	
 	@Test
 	public void TC_05_Enabled() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
+		
+		//Expected enable
+		Assert.assertTrue(isElementEnable(emailTextbox));
+		Assert.assertTrue(isElementDisplayed(educationTextarea));
+		Assert.assertTrue(isElementEnable(under18RadioButton));
+		Assert.assertTrue(isElementEnable(JavaCheckbox));
+		
+		//Expected disnable
+		Assert.assertFalse(isElementEnable(passwordTextbox));
+		Assert.assertFalse(isElementEnable(disableCheckbox));
+		Assert.assertFalse(isElementEnable(disableButton));
 	}
 
 	@AfterClass
-	//public void afterClass() {
+	public void afterClass() {
 		//driver.quit();
-	//}
+	}
+	
+	public boolean isElementDisplayed(By by) {
+		if (driver.findElement(by).isDisplayed()){
+			System.out.println(by + "is displayed");
+			return true;
+		} else {
+			System.out.println(by + "is not displayed");
+			return false;
+		}
+	}
+	
+	public void senkeyToElement(By by, String value) {
+		driver.findElement(by).clear();
+		driver.findElement(by).sendKeys(value);
+	}
+	
+	public void clickRadioButton(By by) {
+		driver.findElement(by).click();
+	}
+	
+	public boolean isElementSelected(By by) {
+		if (driver.findElement(by).isSelected()){
+			System.out.println(by + "is selected");
+			return true;
+		} else {
+			System.out.println(by + "is not selected");
+			return false;
+		}
+	}
+	
+	public boolean isElementEnable(By by) {
+		if (driver.findElement(by).isEnabled()){
+			System.out.println(by + "is enable");
+			return true;
+		} else {
+			System.out.println(by + "is disable");
+			return false;
+		}
+	}
 	
 	public String generateEmail() {
 		Random rand = new Random();
